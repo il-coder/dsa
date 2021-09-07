@@ -1,12 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
 /* using Hoare partition scheme */
-void quick_sort(int arr[],int beg,int end)
+int partition(int arr[],int beg,int end)
 {
-    if(beg >= end)
-    {
-        return;
-    }
     int a = beg,b = end, p = beg;
     while(1)
     {
@@ -14,37 +10,41 @@ void quick_sort(int arr[],int beg,int end)
         {
             b -= 1;
         }
-        if(b==p)
-        {
-            quick_sort(arr,beg,p-1);
-            quick_sort(arr,p+1,end);
-            return;
-        }
-        else
+        if(b != p)
         {
             int t = arr[p];
             arr[p] = arr[b];
             arr[b] = t;
             p = b;
         }
+
         while(a < p && arr[p] >= arr[a])
         {
             a +=1;
         }
-        if(a==p)
-        {
-            quick_sort(arr,beg,p-1);
-            quick_sort(arr,p+1,end);
-            return;
-        }
-        else
+        if(a != p)
         {
             int t = arr[p];
             arr[p] = arr[a];
             arr[a] = t;
             p = a;
         }
+
+	if(a >= b)
+	{
+		return p;
+	}
     }
+}
+
+void quick_sort(int arr[], int beg, int end)
+{
+	if(beg < end)
+        {
+	    int p = partition(arr,beg,end);
+            quick_sort(arr,beg,p-1);
+            quick_sort(arr,p+1,end);
+        }
 }
 
 void display(int arr[], int n)
